@@ -1,5 +1,14 @@
-\documentclass[italian, 11pt]{article}
+\documentclass[italian, a4paper, 12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+
+\usepackage[left=25mm, top=20mm, right=25mm, bottom=20mm]{geometry}
+\renewcommand{\baselinestretch}{1.5}
+
 \usepackage{float}
+
 %%% font & looks %%%
 \usepackage{mathpazo}
 %\usepackage{palatino}
@@ -12,10 +21,9 @@
 % and here - https://www.sharelatex.com/learn/Font_typefaces
 
 \usepackage{microtype}
-\usepackage[utf8x]{inputenc}
-\usepackage[T1]{fontenc}
+
 \usepackage[parfill]{parskip}
-\usepackage[a4paper, left=25mm, top=20mm, right=25mm, bottom=20mm]{geometry}
+
 \usepackage{bm}
 \usepackage[labelfont=bf,font={small,it}]{caption}
 \usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
@@ -30,12 +38,13 @@
 % math
 %\usepackage{amsmath}
 \usepackage{amssymb}
-%\usepackage{amsthm} 
+%\usepackage{amsthm}
 \usepackage{wasysym}
+%\usepackage{siunitx}
 
 % graphics
 \usepackage{multirow}
-\usepackage{placeins}
+\usepackage[section]{placeins}
 \usepackage{graphicx}
 \usepackage{epstopdf}
 \usepackage{pgfplots}
@@ -46,7 +55,7 @@
   \usepgfplotslibrary{patchplots}
   \usepackage{grffile}
   \usepackage{amsmath}
-  
+
 \usepackage{pdfpages}
 
 % extra
@@ -58,6 +67,7 @@
 \usetikzlibrary{decorations.pathreplacing,angles,quotes}
 \usepackage{chemformula}
 \usepackage{textcomp}
+\usepackage{subcaption}
 
 % better tables
 \usepackage{booktabs}
@@ -65,8 +75,8 @@
 %%% links %%%
 \usepackage{hyperref}
 \hypersetup{
-	linktocpage,
-	colorlinks,
+        linktocpage,
+        colorlinks,
     citecolor=black,
     filecolor=black,
     linkcolor=black,
@@ -76,6 +86,9 @@
 \usepackage[framed,numbered]{matlab-prettifier}
 \tikzset{
   font={\fontsize{9pt}{12}\selectfont}}
+
+\usepackage[backend=biber]{biblatex}
+\addbibresource{report.bib}
 
 %%% references %%%
 \usepackage[noabbrev,capitalize,nameinlink]{cleveref}
@@ -283,8 +296,8 @@ Facendo riferimento alla figura~\ref{fig:UDP}, la PER di livello
 applicazione è misurata come la frazione di pacchetti forniti all'UEP
 encoder che raggiungono l'uscita dell'UEP decoder.
 %
-L'overhead è definito, in riferimento ai parametri introdotti nella sezione (\ref{FCsection}),
- come $t =\frac{N-K}{K}$, cioè come l'aumento relativo del numero di pacchetti
+L'overhead è definito, in modo analogo a \cite{uep}, come $t =
+\frac{N-K}{K}$, cioè come l'aumento relativo del numero di pacchetti
 trasmessi dovuto alla codifica.
 %
 Per permettere l'esecuzione di un gran numero di test, il server e il
@@ -357,10 +370,10 @@ precedenti.
 
 \section{Conclusioni}
 
-\section{Bibliografia}
+
 %\begin{figure}[H]
 %	\makebox[\textwidth][c]{\includegraphics[width=16cm]{G10labE_f3.eps}}
 %	\caption{Componenti di $\hat{s}$}\label{fig:s2}
 %\end{figure}
-
+\printbibliography[heading=bibnumbered, title=Bibliografia]
 \end{document}
