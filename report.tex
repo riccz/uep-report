@@ -719,6 +719,53 @@ pacchetti segmentati, ignorando il contributo del padding e degli
 header.
 
 \section{Conclusioni} % Max 0.5 pages
+%In conclusione, riassumendo, le diverse componenti del progetto sono
+%\begin{itemize}
+%\item Libreria JSVM per la codifica e decodifica di flussi video non compressi (C++)\\
+%Classe per la lettura e la scrittura di pacchetti NAL
+%\item Server e client TCP (C++)\\
+%Utilizzo della libreria Protocol Buffers di Google per il passaggio dei parametri necessari alla libreria H.264
+%\item Server e client UDP (C++)
+%\item Codificatore e decodificatore a fontana (C++ e Python)
+%\item Codificatore per protezione non uniforme (C++ e Python)
+%\item Classe per l'algoritmo di message passing (C++ e Python)
+%\item Logger (C++ e Python)
+%\item Modelli del canale (senza errori, con errori i.i.d. e con errori correlati) (C++ e Python)
+%\item Analisi dei dati e grafici dei risultati (Python)
+%\end{itemize}
+Per quanto riguarda il canale privo di errori, l'obbiettivo di implementare e testare l'algoritmo per la codifica UEP è stato raggiunto e i dati ottenuti sono compatibili con i dati 
+presentati nel paper \cite{uep}.
+%Le performance dell'algoritmo sono migliorabili da un punto di vista di complessità di calcolo,
+%in quanto confrontando i risultati ottenuti in figura \ref{fig:encdec} con \cite{uep} si nota
+%che la pendenza della curva tempo di codifica / decodifica contro overhead sia maggiore
+%per la nostra realizzazione dell'algoritmo.\\
+Per quanto riguarda i canali rumorosi, sono stati analizzati due tipi di canale:
+il canale con errori non correlati (errori i.i.d.) può essere utilizzato imponendo una
+Packet Error Rate a livello applicazione bassa a piacere, variando la quantità di ridondanza aggiunta.
+Come si vede in figura \ref{fig:iid_oh}, anche per un canale con probabilità d'errore
+ $P_e = 0.3$, la PER è inferiore a $10^{-8}$ imponendo un overhead contenuto.\\
+Dalla stessa figura si nota come al variare della probabilità di 
+errore del canale, la curva PER vs overhead sia traslata rispetto all'overhead; ciò dimostra
+che se la PER del canale varia, la PER a livello applicazione può essere contenuta
+variando l'overhead.\\
+Nell'eventualità in cui il canale presenti errori correlati,
+la possibilità di aumentare la lunghezza del blocco di pacchetti codificati oltre la lunghezza media della sequenza
+di slot cattivi consecutivi può essere utile ad abbassare la PER anche senza aumentare l'overhead aggiunto.\\
+Se non è possibile aumentare la dimensione del blocco oltre la lunghezza media $\EnB$, è bene 
+tener presente che la quantità di overhead aggiunto ad ogni blocco può essere comunque
+regolata in base a stime della condizione del canale, in modo da soddisfare eventuali condizioni
+sulla probabilità d'errore a livello applicazione.\\
+Se ci sono vincoli sulla dimensione massima del blocco, che possono derivare 
+da vincoli sul delay massimo nella ricezione dei pacchetti, è utile mantenere 
+piccola la dimensione del blocco e sfruttare l'algoritmo di protezione non uniforme, infatti,
+per i canali testati ($\pi_B \in\{10^{-1},10^{-2}\}$), dalle figure \ref{fig:markov_pi100} 
+e \ref{fig:markov_pi10} si evince come quando i blocchi 
+in uscita dall'encoder hanno dimensioni inferiori a $K^* \approx 2100$ pacchetti, 
+la protezione non uniforme abbia prestazioni migliori della protezione uniforme sia per quanto riguarda la
+parte MIB che per quanto riguarda la parte LIB.\\
+Per blocchi di dimensione maggiore, l'algoritmo EEP ha prestazioni 
+migliori rispetto alle prestazioni dell'algoritmo UEP, in quanto la Packet
+Error Rate del caso EEP è inferiore al caso UEP (sia MIB che LIB) quando la dimensione del blocco aumenta.
 
 
 %\begin{figure}[H]
