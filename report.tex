@@ -208,7 +208,7 @@ i_1 \\i_2 \\\vdots \\i_K
 \end{pmatrix} = G \cdot \bm{i}
 \end{equation}
 dove $G$ è la matrice di codifica, $g_{jk}\in\{0,1\}$, $i_j, e_j\in\mathcal{A}$.\\
-La $j-$esima riga della matrice $G$ è generata casualmente e il suo grado (la distanza di Hamming dalla riga nulla) segue una distribuzione di probabilità nota: la Robust Soliton Distribution.\\
+La $j-$esima riga della matrice $G$ (detta anche $j$-esimo vettore di codifica) è generata casualmente e il suo grado (la distanza di Hamming dalla riga nulla) segue una distribuzione di probabilità nota: la Robust Soliton Distribution.\\
 La codifica del $j-$esimo pacchetto avviene attraverso l'operazione di \emph{XOR} tra i pacchetti di input selezionati dagli elementi della $j-$esima riga di $G$.\\
 Se $G$ è invertibile, è possibile recuperare il vettore $\bm{i}$ da $\bm{e}$ attraverso la risoluzione di un sistema lineare.\\
 \begin{figure}[b]
@@ -236,11 +236,16 @@ I codici a fontana non prevedono la risoluzione di un sistema lineare per la dec
 
 Da tale descrizione si evince come sia possibile non riuscire a decodificare un blocco, anche se il canale è completamente affidabile. Da questa osservazione nasce l'interesse verso le prestazioni dell'algoritmo in condizioni di trasmissione senza errori.
 
-\subsubsection{UEP}\label{UEPsection}
-La protezione non uniforme di un messaggio prevede la divisione dello stesso in $p$ parti di diversa importanza.\\
-Ogni parte viene ripetuta un numero $RF_i$ di volte, con $i\in\{1,\cdots,p\}$, in base alla sua importanza.\\
-Il risultato della giustapposizione delle parti ripetute viene a sua volta ripetuto un numero $EF$ di volte.\\
-Il messaggio che si ottiene da tali giustapposizioni è mappato nelle parti originali del messaggio originale e viene inviato al codificatore a fontana. Di seguito uno schema rappresentativo con $p=2$, $RF_1 = 2$,$RF_2=1$, $EF=2$.
+\subsubsection{Protezione non uniforme dagli errori}\label{UEPsection}
+La protezione non uniforme di un blocco di simboli secondo l'algoritmo esposto in \cite{uep} prevede la divisione dei simboli che lo compongono in $p$ parti di diversa importanza.
+Ogni parte viene ripetuta un numero $RF_i$ di volte, con $i\in\{1,\dots,p\}$, in base alla sua importanza.
+Il risultato della concatenazione delle parti ripetute viene a sua volta ripetuto un numero $EF$ di volte.
+%
+Il blocco di simboli che si ottiene in seguito alle ripetizioni (detto ``blocco virtuale'') è utilizzato nel processo di generazione dei vettori di codifica al posto del blocco originale.
+%
+I simboli di input selezionati dai vettori di codifica sono poi mappati nei simboli appartenenti al blocco originale, aumentando in tal modo la probabilità che un simbolo di output contenga uno dei simboli di input ripetuti più volte.
+%
+Di seguito (figura~\ref{fig:UEP}) uno schema rappresentativo con $p=2$, $RF_1 = 2$,$RF_2=1$, $EF=2$.
 \begin{figure}[H]
     \centering
         \makebox[\textwidth][c]{\includegraphics[width=8cm]{uep.png}}
