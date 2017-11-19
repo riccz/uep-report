@@ -168,7 +168,7 @@ cui dipendono tutti i livelli superiori. Gli altri pacchetti, che
 contengono gli ``Enhancement Layers'' sono classificati come meno
 importanti.
 
-\begin{figure}[H]
+\begin{figure}[htb]
     \centering
         \includegraphics[clip, trim=0cm 1cm 0cm 1cm, width=1.00\textwidth]{UDP.pdf}
     \caption{Video stream encoding / decoding and transmission}
@@ -210,7 +210,7 @@ dove $G$ è la matrice di codifica, $g_{jk}\in\{0,1\}$, $i_j, e_j\in\mathcal{A}$
 La $j-$esima riga della matrice $G$ (detta anche $j$-esimo vettore di codifica) è generata casualmente e il suo grado (la distanza di Hamming dalla riga nulla) segue una distribuzione di probabilità nota: la Robust Soliton Distribution.\\
 La codifica del $j-$esimo pacchetto avviene attraverso l'operazione di \emph{XOR} tra i pacchetti di input selezionati dagli elementi della $j-$esima riga di $G$.\\
 Se $G$ è invertibile, è possibile recuperare il vettore $\bm{i}$ da $\bm{e}$ attraverso la risoluzione di un sistema lineare.\\
-\begin{figure}[b]
+\begin{figure}[htb]
     \centering
         \makebox[\textwidth][c]{\includegraphics[width=6cm]{fc.png}}
     \caption{Schema: \textit{message passing}}
@@ -245,7 +245,7 @@ Il blocco di simboli che si ottiene in seguito alle ripetizioni (detto ``blocco 
 I simboli di input selezionati dai vettori di codifica sono poi mappati nei simboli appartenenti al blocco originale, aumentando in tal modo la probabilità che un simbolo di output contenga uno dei simboli di input ripetuti più volte.
 %
 Di seguito (figura~\ref{fig:UEP}) uno schema rappresentativo con $p=2$, $RF_1 = 2$,$RF_2=1$, $EF=2$.
-\begin{figure}[H]
+\begin{figure}[htb]
     \centering
         \makebox[\textwidth][c]{\includegraphics[width=8cm]{uep.png}}
     \caption{Schema della protezione non uniforme}
@@ -263,7 +263,7 @@ Il canale simulato nei test è un ``packet deletion channel'' di due
 tipi: con cancellazioni iid e con cancellazioni modellate da una
 catena di Markov a due stati.
 %
-\begin{figure}[tb]
+\begin{figure}[htb]
     \centering
         \includegraphics[clip, trim=0cm 1cm 0cm 1cm, width=0.5\textwidth]{Channel.pdf}
     \caption{Rappresentazione dei due tipi di canale utilizzati.}
@@ -320,6 +320,7 @@ transizione:
 dove $e$ è la probabilità iid di cancellare un pacchetto.
 
 \subsection{Complicazioni trovate} % Max 5 lines
+\label{sec:complications}
 Purtroppo l'esecuzione dell'intera implementazione dello schema di
 figura~\ref{fig:UDP} richiede un tempo tale da rendere difficoltosa la
 costruzione di grafici che siano precisi per PER basse.
@@ -685,7 +686,7 @@ pacchetti in UDP.
 \end{figure}
 
 \subsection{Simulazione del sistema completo}
-Come scritto all'inizio della sezione~\ref{sec:results}, l'esecuzione
+Come scritto nel paragrafo~\ref{sec:complications}, l'esecuzione
 del sistema completo è molto onerosa in termini di tempo, quindi in
 questa tesina è stato preferito fornire dei grafici più precisi
 simulando solamente il message passing.
