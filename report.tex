@@ -141,6 +141,7 @@ I codici a fontana \cite{fcsurvey, rossifc} presentano due caratteristiche notev
 \end{itemize}
 I codici a fontana possono essere usati per proteggere allo stesso modo tutti i dati da trasmettere, caso in cui la ridondanza aggiunta dipende solo dalle condizioni del canale (EEP, equal error protection), oppure si possono proteggere maggiormente i dati più sensibili (UEP, unequal error protection \cite{uep}), caso in cui la ridondanza aggiunta dipende anche dall'importanza del dato.\\
 Il vantaggio dato dalla possibilità di aggiungere una quantità arbitraria di ridondanza, oltre che nel proteggere meglio i dati più sensibili, risiede anche nella possibilità di sfruttare un canale che ha un comportamento variabile nel tempo e ignoto a priori: la quantità di ridondanza aggiunta può crescere al peggiorare delle condizioni del canale, a differenza di un codice a rate fisso che comporta uno spreco di banda se il canale è in buone condizioni, o insufficiente protezione se il canale non è in buone condizioni.
+\newpage
 \section{Approccio tecnico}
 \subsection{Obbiettivi} % Max 5 lines
 La finalità del progetto è estendere il paper \cite{uep}, in cui è proposto un algoritmo per l'UEP basato sui codici a fontana, testando l'algoritmo di trasmissione con protezione non uniforme nel caso di un canale che introduce errori.
@@ -187,6 +188,7 @@ importanti.
 %%     \label{fig:TCP}
 %% \end{figure}
 %\includepdf{TCP.pdf}
+
 \subsection{Modelli matematici}
 \subsubsection{Codici a fontana}\label{FCsection}
 I codici a fontana \cite{fcsurvey, rossifc} sono una classe di codici di correzione degli errori che aggiunge a un messaggio $\bm{i}\in\mathcal{A}^K$, di lunghezza $K$, una quantità di ridondanza potenzialmente infinita, aumentando la lunghezza del messaggio codificato $\bm{e}\in\mathcal{A}^N$, in modo tale che sia possibile recuperare con buona probabilità il messaggio originale da un sottoinsieme di cardinalità leggermente maggiore di $K$ del messaggio codificato.\\
@@ -328,7 +330,7 @@ costruzione di grafici che siano precisi per PER basse.
 I risultati della sezione~\ref{sec:results} sono, quindi, stati
 ottenuti applicando direttamente il message passing, senza trasmettere
 realmente dei pacchetti.
-
+\newpage
 \section{Risultati} % Min 7 pages
 \label{sec:results}
 L'algoritmo per la protezione non uniforme esposto nel
