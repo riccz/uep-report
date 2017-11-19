@@ -189,6 +189,70 @@ importanti.
 %\includepdf{TCP.pdf}
 \newpage
 \subsection{Modelli matematici}
+\subsubsection{Codici a fontana}\label{FCsection}
+I codici a fontana \cite{fcsurvey, rossifc} sono una classe di codici di correzione degli errori che aggiunge a un messaggio $\bm{i}\in\mathcal{A}^K$, di lunghezza $K$, una quantità di ridondanza potenzialmente infinita, aumentando la lunghezza del messaggio codificato $\bm{e}\in\mathcal{A}^N$, in modo tale che sia possibile recuperare con buona probabilità il messaggio originale da un sottoinsieme di cardinalità leggermente maggiore di $K$ del messaggio codificato.\\
+%L'overhead introdotto dalla codifica è dato da $t = \frac{N-K}{K}$.\\
+Fissando la lunghezza del messaggio codificato, $N$, per ogni messaggio originale di lunghezza fissata $K$, è possibile schematizzare la codifica di canale lineare attraverso la seguente equazione
+\begin{equation}
+\bm{e} =
+\begin{pmatrix}
+e_1 \\e_2 \\e_3 \\\vdots \\e_N
+\end{pmatrix} = \underbrace{\begin{pmatrix}
+g_{11}	&g_{12}	&\cdots	&g_{1K}\\
+g_{21}	&g_{22}	&\cdots	&g_{2K}\\
+g_{31}	&g_{32}	&\cdots	&g_{3K}\\
+\vdots &\ddots & \ddots &\vdots\\
+g_{N1}	&g_{N2}	&\cdots	&g_{NK}
+\end{pmatrix}}_{=G} \begin{pmatrix}
+i_1 \\i_2 \\\vdots \\i_K
+\end{pmatrix} = G \cdot \bm{i}
+\end{equation}
+dove $G$ è la matrice di codifica, $g_{jk}\in\{0,1\}$, $i_j, e_j\in\mathcal{A}$.\\
+La $j-$esima riga della matrice $G$ è generata casualmente e il suo grado (la distanza di Hamming dalla riga nulla) segue una distribuzione di probabilità nota: la Robust Soliton Distribution.\\
+La codifica del $j-$esimo pacchetto avviene attraverso l'operazione di \emph{XOR} tra i pacchetti di input selezionati dagli elementi della $j-$esima riga di $G$.\\
+Se $G$ è invertibile, è possibile recuperare il vettore $\bm{i}$ da $\bm{e}$ attraverso la risoluzione di un sistema lineare.\\
+\begin{figure}[b]
+    \centering
+        \makebox[\textwidth][c]{\includegraphics[width=6cm]{fc.png}}
+    \caption{Schema: \textit{message passing}}
+    \label{fig:FC}
+\end{figure}
+I codici a fontana non prevedono la risoluzione di un sistema lineare per la decodifica, bensì un algoritmo sub-ottimale ma molto più veloce detto \emph{message passing}. L'algoritmo può essere così descritto (con riferimento alla figura~\ref{fig:FC}):
+\begin{itemize}
+        \item SE esiste un simbolo codificato $e_n$ con un solo arco entrante (es. $e_4$)\begin{itemize}
+                \item	Decodifica il simbolo di informazione corrispondente $i_k=e_n$ ($i_5$ in questo caso) e rimuovi l'arco uscente da $e_n$
+                \item	Sostituisci tutti i simboli codificati $e_{n'}$ aventi un arco entrante da $i_k$ con $e_{n'}^{\text{new}} = e_{n'} \textit{ XOR } i_k$
+                \item   Rimuovi gli archi uscenti da $i_k$
+                \item   SE ci sono altri simboli di informazione da decodificare \begin{itemize}
+                        \item Torna all'inizio
+                \end{itemize}
+                \item ALTRIMENTI\begin{itemize}
+                        \item Decodifica riuscita
+                \end{itemize}
+        \end{itemize}
+
+        \item ALTRIMENTI Decodifica fallita
+\end{itemize}
+
+Da tale descrizione si evince come sia possibile non riuscire a decodificare un blocco, anche se il canale è completamente affidabile. Da questa osservazione nasce l'interesse verso le prestazioni dell'algoritmo in condizioni di trasmissione senza errori.
+
+\subsubsection{UEP}\label{UEPsection}
+La protezione non uniforme di un messaggio prevede la divisione dello stesso in $p$ parti di diversa importanza.\\
+Ogni parte viene ripetuta un numero $RF_i$ di volte, con $i\in\{1,\cdots,p\}$, in base alla sua importanza.\\
+Il risultato della giustapposizione delle parti ripetute viene a sua volta ripetuto un numero $EF$ di volte.\\
+Il messaggio che si ottiene da tali giustapposizioni è mappato nelle parti originali del messaggio originale e viene inviato al codificatore a fontana. Di seguito uno schema rappresentativo con $p=2$, $RF_1 = 2$,$RF_2=1$, $EF=2$.
+\begin{figure}[H]
+    \centering
+        \makebox[\textwidth][c]{\includegraphics[width=8cm]{uep.png}}
+    \caption{Schema della protezione non uniforme}
+    \label{fig:UEP}
+\end{figure}
+
+\subsubsection{H.264}
+Più nel dettaglio, il flusso video codificato è organizzato in unità NAL (Network Abstraction Layer) che possono essere di 2 tipi: VCL NAL Packets (Video Coding Layer) e non-VCL NAL packets. I pacchetti non-VCL possono contenere il set di parametri da usare per decodificare (informazioni necessarie per la decodifica, quindi ad alta priorità), oppure delle informazioni supplementari per migliorare la decodifica (SEI, Supplemental Enhancement Information). Il bitstream NAL è composto da una serie di sequenze video più corte (GOP, Group Of Pictures) decodificabili indipendentemente dal resto del flusso: ogni GOP comincia con tutte le informazioni necessarie alla decodifica, in modo che essa possa avvenire anche senza aver decodificato nessun segmento precedente.\\
+Un tipo di applicazione che si presta particolarmente all'utilizzo di UEP \cite{uep} è lo streaming di un video codificato attraverso SVC, infatti tale protocollo rende possibile la decodifica di un flusso video da flussi parziali, chiamati \textit{layer}, con risoluzione spaziale o temporale minore, o con fedeltà ridotta. I layer sono ordinati dal più importante (layer 0, a bassa qualità) al meno importante (layer \textit{n}, che permette di raggiungere alta qualità).\\
+La presenza di informazioni più rilevanti di altre (come i parametri per la decodifica e i layer inferiori, in particolare i frame intra-coded) giustifica l'uso di UEP: i flussi con priorità minore aggiungono qualità al video decodificato, ma non sono indispensabili per la decodifica, quindi possono essere protetti con meno ridondanza.
+
 \subsubsection{Canale}
 \label{sec:markov}
 Il canale è rappresentato da una catena di Markov a 2 stati: buono (G) e cattivo (B).\\
@@ -255,67 +319,7 @@ Di seguito la rappresentazione Markoviana di entrambi i canali.
     \caption{Rappresentazione Markoviana dei due tipi di canale analizzati}
     \label{fig:Channel}
 \end{figure}
-\subsubsection{Codici a fontana}\label{FCsection}
-I codici a fontana sono una classe di codici di correzione degli errori che aggiunge a un messaggio $\bm{x}\in\mathcal{A}^K$, di lunghezza $K$, una quantità di ridondanza potenzialmente infinita, aumentando la lunghezza del messaggio codificato $\bm{y}\in\mathcal{A}^N$, in modo tale che sia possibile recuperare il messaggio originale da un sottoinsieme di cardinalità leggermente maggiore di $K$ (e minore di $N$) del messaggio codificato.\\
-%L'overhead introdotto dalla codifica è dato da $t = \frac{N-K}{K}$.\\
-Fissando la lunghezza del messaggio codificato, $N$, per ogni messaggio originale di lunghezza $K<N$, è possibile schematizzare la codifica di canale lineare attraverso la seguente equazione
-\begin{equation}
-\bm{y} =
-\begin{pmatrix}
-y_1 \\y_2 \\y_3 \\\vdots \\y_N
-\end{pmatrix} = \underbrace{\begin{pmatrix}
-g_{11}	&g_{12}	&\cdots	&g_{1K}\\
-g_{21}	&g_{22}	&\cdots	&g_{2K}\\
-g_{31}	&g_{32}	&\cdots	&g_{3K}\\
-\vdots &\ddots & \ddots &\vdots\\
-g_{N1}	&g_{N2}	&\cdots	&g_{NK}
-\end{pmatrix}}_{=G} \begin{pmatrix}
-x_1 \\x_2 \\\vdots \\x_K
-\end{pmatrix} = G \cdot \bm{x}
-\end{equation}
-dove $G$ è la matrice di codifica, $g_{ij}\in\{0,1\}$, $x_i, y_i\in\mathcal{A}$.\\
-La $i-$esima riga della matrice $G$ è casuale e il suo grado (la distanza di hamming dall'origine) segue una distribuzione di probabilità nota: la Robust Soliton Distribution.\\
-La codifica dell'$i-$esimo pacchetto avviene attraverso l'operazione di \textit{OR esclusivo} tra i pacchetti di informazione indicati dalla $i-$esima riga di $G$.\\
-Se $G$ è invertibile, è possibile recuperare il vettore $\bm{x}$ da $\bm{y}$ attraverso la risoluzione di un sistema lineare.\\
-I codici a fontana non prevedono la risoluzione di un sistema lineare per la decodifica, bensì un algoritmo di \textit{message passing}: con riferimento alla figura (\ref{fig:FC})
-\begin{itemize}
-        \item SE esiste un simbolo codificato $e_n$ con un solo arco entrante (come $e_4$)\begin{itemize}
-                \item	Decodifica il simbolo di informazione corrispondente $i_k=e_n$ ($i_5$ in questo caso)
-                \item	Rimpiazza tutti i simboli codificati $e_{n'}$ aventi un arco entrante da $i_k$ con $e_{n'}^{\text{new}} = e_{n'} \textit{ XOR } i_k$
-                \item   Rimuove gli archi da $i_k$
-                \item   SE ci sono altri simboli di informazione da decodificare \begin{itemize}
-                        \item Torna all'inizio
-                \end{itemize}
-                \item ALTRIMENTI\begin{itemize}
-                        \item Decodifica riuscita
-                \end{itemize}
-        \end{itemize}
 
-        \item ALTRIMENTI Decodifica fallita
-\end{itemize}
-\begin{figure}[H]
-    \centering
-        \makebox[\textwidth][c]{\includegraphics[width=6cm]{fc.png}}
-    \caption{Schema: \textit{message passing}}
-    \label{fig:FC}
-\end{figure}
-Dalla tale descrizione si evince come sia possibile non riuscire a decodificare un blocco, anche se il canale è completamente affidabile. Da questa osservazione nasce l'interesse verso le prestazioni dell'algoritmo in condizioni di trasmissione senza errori.
-\newpage
-\subsubsection{H.264}
-Più nel dettaglio, il flusso video codificato è organizzato in unità NAL (Network Abstraction Layer) che possono essere di 2 tipi: VCL NAL Packets (Video Coding Layer) e non-VCL NAL packets. I pacchetti non-VCL possono contenere il set di parametri da usare per decodificare (informazioni necessarie per la decodifica, quindi ad alta priorità), oppure delle informazioni supplementari per migliorare la decodifica (SEI, Supplemental Enhancement Information). Il bitstream NAL è composto da una serie di sequenze video più corte (GOP, Group Of Pictures) decodificabili indipendentemente dal resto del flusso: ogni GOP comincia con tutte le informazioni necessarie alla decodifica, in modo che essa possa avvenire anche senza aver decodificato nessun segmento precedente.\\
-Un tipo di applicazione che si presta particolarmente all'utilizzo di UEP \cite{uep} è lo streaming di un video codificato attraverso SVC, infatti tale protocollo rende possibile la decodifica di un flusso video da flussi parziali, chiamati \textit{layer}, con risoluzione spaziale o temporale minore, o con fedeltà ridotta. I layer sono ordinati dal più importante (layer 0, a bassa qualità) al meno importante (layer \textit{n}, che permette di raggiungere alta qualità).\\
-La presenza di informazioni più rilevanti di altre (come i parametri per la decodifica e i layer inferiori, in particolare i frame intra-coded) giustifica l'uso di UEP: i flussi con priorità minore aggiungono qualità al video decodificato, ma non sono indispensabili per la decodifica, quindi possono essere protetti con meno ridondanza.
-\subsubsection{UEP}\label{UEPsection}
-La protezione non uniforme di un messaggio prevede la divisione dello stesso in $p$ parti di diversa importanza.\\
-Ogni parte viene ripetuta un numero $RF_i$ di volte, con $i\in\{1,\cdots,p\}$, in base alla sua importanza.\\
-Il risultato della giustapposizione delle parti ripetute viene a sua volta ripetuto un numero $EF$ di volte.\\
-Il messaggio che si ottiene da tali giustapposizioni è mappato nelle parti originali del messaggio originale e viene inviato al codificatore a fontana. Di seguito uno schema rappresentativo con $p=2$, $RF_1 = 2$,$RF_2=1$, $EF=2$.
-\begin{figure}[H]
-    \centering
-        \makebox[\textwidth][c]{\includegraphics[width=8cm]{uep.png}}
-    \caption{Schema della protezione non uniforme}
-    \label{fig:UEP}
-\end{figure}
 \newpage
 \subsection{Complicazioni trovate} % Max 5 lines
 Purtroppo l'esecuzione dell'intera implementazione dello schema di
