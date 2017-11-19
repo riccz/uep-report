@@ -307,10 +307,10 @@ Purtroppo l'esecuzione dell'intera implementazione dello schema di
 figura~\ref{fig:UDP} richiede un tempo tale da rendere difficoltosa la
 costruzione di grafici che siano precisi per PER basse.
 %
-I risultati dei paragrafi seguenti sono, quindi, stati ottenuti
-utilizzando solamente l'implementazione del message passing, senza
-trasmettere realmente dei pacchetti.
-
+I risultati della sezione~\ref{sec:results} sono, quindi, stati
+ottenuti utilizzando solamente l'implementazione del message passing,
+senza trasmettere realmente dei pacchetti.
+\newpage
 \section{Risultati} % Min 7 pages
 \label{sec:results}
 L'algoritmo per la protezione non uniforme esposto nel
@@ -363,7 +363,7 @@ senza errori con $e=0$.
 Nelle figure~\ref{fig:zero_oh} e~\ref{fig:iid_oh} sono mostrati i
 risultati della simulazione di 10000 blocchi.
 %
-\begin{figure}[htb]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{plot_ber_zero_oh}
   \caption{Packet error rate al variare dell'overhead su un canale
@@ -376,7 +376,7 @@ risultati della simulazione di 10000 blocchi.
 % UEP EF = 4: better points in [4:17]
 % UEP EF = 2: better points in [11:17]
 %
-\begin{figure}[htb]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{plot_ber_iid}
   \caption{Packet error rate al variare dell'overhead su un canale
@@ -432,7 +432,7 @@ e variando la dimensione del blocco $K$.
 In modo analogo al paragrafo precedente, il canale è stato simulato
 facendo una transizione di stato prima di ogni nuovo pacchetto e
 scartando quest'ultimo in caso lo stato sia ``cattivo''. Lo stato
-iniziale del canale è stato scelto, per ogni blocco di pacchetti, 
+iniziale del canale è stato scelto, per ogni blocco di pacchetti,
 secondo le probabilità stazionarie $\pi_G$ e $\pi_B$.
 
 La frazione di pacchetti importanti presente in ogni blocco è stata
@@ -467,23 +467,23 @@ correlati influiscano sulla PER.
 %
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{per_ks_100-1900_rfs_5-1_1-1_ef_1_pib_0.01_enb_5_10_50_vs_K.png}
+  \includegraphics[width=\textwidth]{plot_markov_pi100small}
   \caption{Canale $\pi_B = 10^{-2}$, $\EnB \in \{5, 10, 50\}$}
   \label{fig:markov2}
 \end{figure}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{per_ks_100-1900_rfs_5-1_1-1_ef_1_pib_0.1_enb_5_10_50_vs_K.png}
+  \includegraphics[width=\textwidth]{plot_markov_pi10small}
   \caption{Canale $\pi_B = 10^{-1}$, $\EnB \in \{5, 10, 50\}$}
   \label{fig:markov1}
 \end{figure}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{per_ks_100-1900_rfs_5-1_1-1_ef_1_pib_0.1_enb_50_500_vs_K.png}
+  \includegraphics[width=\textwidth]{plot_markov_pi10big}
   \caption{Canale $\pi_B = 10^{-1}$, $\EnB \in \{50, 500\}$}
   \label{fig:markov1bis}
 \end{figure}
-Dai grafici sopra riportati si può notare come l'aumento della probabilità d'errore 
+Dai grafici sopra riportati si può notare come l'aumento della probabilità d'errore
 media del canale comporti un aumento della Packet Error Rate, anche se confrontando le
 figure \ref{fig:markov_zero} e \ref{fig:markov1} si nota che la differenza tra un canale
 error free e un canale con probablità d'errore media $\pi_B = 10^{-1}$ è esigua.\\
@@ -493,8 +493,8 @@ prestazioni migliori della protezione uniforme sia per quanto riguarda la
 parte più importante (MIB) che per quanto riguarda la parte meno importante (LIB).\\
 Per valori di $K$ superiori, il MIB (UEP) ha una PER inferiore alla protezione uniforme (EEP)
 mentre il LIB ha una PER superiore.\\
-Se ci sono vincoli sulla dimensione massima del blocco, che possono derivare 
-da vincoli sul delay massimo nella ricezione dei pacchetti, è utile mantenere 
+Se ci sono vincoli sulla dimensione massima del blocco, che possono derivare
+da vincoli sul delay massimo nella ricezione dei pacchetti, è utile mantenere
 piccola la dimensione del blocco e sfruttare l'algoritmo di protezione non uniforme.
 
 %
@@ -502,8 +502,8 @@ piccola la dimensione del blocco e sfruttare l'algoritmo di protezione non unifo
 %($\pi_B = 10^{-2}$ e $\EnB = 50$) le prestazioni in termini di PER del LIB sono
 %peggiori rispetto al caso di protezione uniforme.
 %
-%D'altra parte, se la perdita di informazioni contenute nel LIB è meno 
-%rilevante rispetto alla perdita di informazioni contenute nella MIB, 
+%D'altra parte, se la perdita di informazioni contenute nel LIB è meno
+%rilevante rispetto alla perdita di informazioni contenute nella MIB,
 %anche per canali con errori più correlati è possibile sfruttare l'algoritmo
 %di protezione non uniforme al fine di mantenere la dimensione del blocco
 %contenuta
@@ -568,7 +568,7 @@ In figura~\ref{fig:encdec} sono mostrati i tempi medi di codifica e di
 decodifica ottenuti eseguendo le simulazioni su un computer con CPU
 Intel Xeon E5450 e con 16 GB di RAM.
 %
-\begin{figure}[htb]
+\begin{figure}[H]
   \centering
   \begin{subfigure}{0.5\textwidth}
     \centering
@@ -683,7 +683,7 @@ paragrafo~\ref{sec:pktsize} e gli stessi parametri del
 paragrafo~\ref{sec:iid} sono state ottenute le PER mostrate nella
 figura~\ref{fig:iid_real}.
 %
-\begin{figure}[htb]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{plot_iid_real}
   \caption{Packet error rate ottenuta dal sistema completo al variare
