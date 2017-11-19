@@ -132,7 +132,7 @@ Verrà analizzata la correttezza della trasmissione (in termini di Bit Error Rat
 Il progetto è stato realizzato usando C++ e Python.
 \newpage
 \section{Introduzione} % Max 1 page
-Spesso, al giorno d'oggi, la qualità delle connessioni tra i dispositivi di una rete è variabile, anche, ad esempio, a causa di meccanismi di condivisione di risorse adattativi, finalizzati al rispetto di vincoli variabili di throughput per un numero variabile di utenti. Variabile è anche l'insieme di dispositivi connessi alla rete e il link budget di ogni dispositivo. Quando è necessario trasmettere un flusso video a un insieme di utenti, la qualità del video, in questo tipo di rete, dev'essere necessariamente variabile in base alla banda disponibile ad ogni utente, infatti la quantità di informazione da trasmettere (entropia del messaggio) è proporzionale alla qualità del video e l'entropia massima di un messaggio trasmesso in un canale non privo di errori è limitata dal secondo teorema di Shannon \cite{shannon}. Un protocollo che si presta al multicast video attraverso connessioni eterogenee è l'estensione Scalable Video Coding (SVC) del protocollo H.264/MPEG-4 AVC \cite{svc}. Tale protocollo, infatti, permette di codificare il video una sola volta per tutti gli utenti, separando il file originale in un numero arbitrario di stream, la cui composizione garantisce alta fedeltà di ricostruzione del flusso video originale, ma non è indispensabile avere tutti le componenti per ricostruire un video a qualità inferiore.\\
+Spesso, al giorno d'oggi, la qualità delle connessioni tra i dispositivi di una rete è variabile, anche, ad esempio, a causa di meccanismi di condivisione di risorse adattativi, finalizzati al rispetto di vincoli variabili di throughput per un numero variabile di utenti. Variabile è anche l'insieme di dispositivi connessi alla rete e il link budget di ogni dispositivo. Quando è necessario trasmettere un flusso video a un insieme di utenti, la qualità del video, in questo tipo di rete, dev'essere necessariamente variabile in base alla banda disponibile ad ogni utente, infatti la quantità di informazione da trasmettere (entropia del messaggio) è proporzionale alla qualità del video e l'entropia massima di un messaggio trasmesso in un canale non privo di errori è limitata dal secondo teorema di Shannon \cite{shannon}. Un protocollo che si presta al multicast video attraverso connessioni eterogenee è l'estensione Scalable Video Coding (SVC) del protocollo H.264/MPEG-4 AVC \cite{svc}. Tale protocollo, infatti, permette di codificare il video una sola volta per tutti gli utenti, separando il file originale in un numero arbitrario di stream, la cui ricomposizione garantisce alta fedeltà di ricostruzione del flusso video originale, ma non è indispensabile avere tutti le componenti per ricostruire un video a qualità inferiore.\\
 Per trasmettere un flusso di dati attraverso un canale variabile e non completamente affidabile, garantendo la qualità del servizio, è utile aggiungere ridondanza all'informazione inviata. Il rapporto tra il messaggio con ridondanza aggiunta e il messaggio originale è chiamato rate del codice di correzione degli errori.
 I codici a fontana \cite{fcsurvey, rossifc} presentano due caratteristiche notevoli, rispetto ad altri codici di correzione degli errori:
 \begin{itemize}
@@ -147,30 +147,45 @@ La finalità del progetto è estendere il paper \cite{uep}, in cui è proposto u
 %
 Considerando sia il caso di errori indipendenti che il caso di errori correlati, questo progetto vuole dimostrare che il protocollo di protezione non uniforme è utile ed efficiente anche in condizioni non error-free.
 \subsection{Scenario} % Max 20 lines
-Lo scenario considerato rappresentato in figura~\ref{fig:UDP}. Un
+Lo scenario considerato è rappresentato in figura~\ref{fig:UDP}: un
 server trasmette un video H264 a un client segmentandolo in pacchetti
-di lunghezza costante e divisi in due classi di priorità. I pacchetti
+di lunghezza costante e divisi in due classi di priorità; i pacchetti
 sono aggregati in blocchi con una struttura fissata (cioè contengono
-sempre lo stesso numero di pacchetti per ogni classe di priorità). I
+sempre lo stesso numero di pacchetti per ogni classe di priorità) e i
 blocchi sono poi codificati utilizzando l'algoritmo proposto in
-\cite{uep}, a un livello di overhead fissato e inviati dentro
-pacchetti UDP al client.
-%\includegraphics[trim=0cm 8cm 0cm 7cm, width=1.00\textwidth]{TCP.pdf}
-%\includegraphics[width=180mm]{UDP.pdf}
-%\includepdf[pages={1}]{UDP.pdf}
-%\begin{figure}[htbp]
+\cite{uep} e inviati al client incapsulati dentro pacchetti UDP.
+
+Lo stream video originale è codificato e poi segmentato in pacchetti
+(NALU) utilizzando JSVM \cite{jsvm}, l'encoder di riferimento per lo
+standard SVC. I pacchetti contenenti i parametri necessari alla
+decodifica sono trasmessi attraverso una connessione TCP per
+garantirne la ricezione, mentre i pacchetti contenenti i frame sono
+codificati e trasmessi dal sistema appena descritto.
+%
+Sono classificati come importanti i pacchetti che trasportano il
+``Base Layer'', cioè il livello SVC codificato a minore qualità e da
+cui dipendono tutti i livelli superiori. Gli altri pacchetti, che
+contengono gli ``Enhancement Layers'' sono classificati come meno
+importanti.
+
 \begin{figure}[H]
     \centering
         \includegraphics[clip, trim=0cm 1cm 0cm 1cm, width=1.00\textwidth]{UDP.pdf}
     \caption{Video stream encoding / decoding and transmission}
     \label{fig:UDP}
 \end{figure}
-\begin{figure}[H]
-    \centering
-        \includegraphics[clip, trim=0cm 1cm 0cm 1cm, width=1.00\textwidth]{TCP.pdf}
-    \caption{TCP connection and tansmission setup}
-    \label{fig:TCP}
-\end{figure}
+% Figure TODO: elimination of redundancy -> (partially) decoded blocks [K_0, K_1]
+% Then: Packet reordering ] UEP decoder -> Video decoder H264
+% Remove ACK NET PACKET, Remove client to server status report
+% Remove fixed packet sizes
+
+%
+%% \begin{figure}[H]
+%%     \centering
+%%         \includegraphics[clip, trim=0cm 1cm 0cm 1cm, width=1.00\textwidth]{TCP.pdf}
+%%     \caption{TCP connection and tansmission setup}
+%%     \label{fig:TCP}
+%% \end{figure}
 %\includepdf{TCP.pdf}
 \newpage
 \subsection{Modelli matematici}
