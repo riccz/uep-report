@@ -487,23 +487,23 @@ correlati influiscano sulla PER.
   \centering
   \includegraphics[width=\textwidth]{plot_markov_pi100small}
   \caption{Canale $\pi_B = 10^{-2}$, $\EnB \in \{5, 10, 50\}$}
-  \label{fig:markov2}
+  \label{fig:markov_pi100small}
 \end{figure}
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{plot_markov_pi10small}
   \caption{Canale $\pi_B = 10^{-1}$, $\EnB \in \{5, 10, 50\}$}
-  \label{fig:markov1}
+  \label{fig:markov_pi10small}
 \end{figure}
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{plot_markov_pi10big}
   \caption{Canale $\pi_B = 10^{-1}$, $\EnB \in \{50, 500\}$}
-  \label{fig:markov1bis}
+  \label{fig:markov_pi10big}
 \end{figure}
 Dai grafici sopra riportati si può notare come l'aumento della probabilità d'errore
 media del canale comporti un aumento della Packet Error Rate, anche se confrontando le
-figure \ref{fig:markov_zero} e \ref{fig:markov1} si nota che la differenza tra un canale
+figure \ref{fig:markov_zero} e \ref{fig:markov_pi100small} si nota che la differenza tra un canale
 error free e un canale con probablità d'errore media $\pi_B = 10^{-1}$ è esigua.\\
 Inoltre, per tutti i canali testati, fino a blocchi di dimensione $K \approx 2100$ pacchetti, 
 la protezione non uniforme ha
@@ -755,15 +755,15 @@ sulla probabilità d'errore a livello applicazione.\\
 Se ci sono vincoli sulla dimensione massima del blocco, che possono derivare 
 da vincoli sul delay massimo nella ricezione dei pacchetti, è utile mantenere 
 piccola la dimensione del blocco e sfruttare l'algoritmo di protezione non uniforme, infatti,
-per i canali testati ($\pi_B \in\{10^{-1},10^{-2}\}$), dalle figure \ref{fig:markov_pi100} 
-e \ref{fig:markov_pi10} si evince come quando i blocchi 
+per i canali testati ($\pi_B \in\{10^{-1},10^{-2}\}$), dalle figure \ref{fig:markov_pi100small} 
+e \ref{fig:markov_pi10small} si evince come quando i blocchi 
 in uscita dall'encoder abbiano dimensioni inferiori a $K^* \approx 2100$ pacchetti, 
 la protezione non uniforme abbia prestazioni migliori della protezione uniforme sia per quanto riguarda la
 parte MIB che per quanto riguarda la parte LIB.\\
 Per blocchi di dimensione maggiore, l'algoritmo EEP ha prestazioni 
 migliori rispetto alle prestazioni dell'algoritmo UEP, in quanto la Packet
 Error Rate del caso EEP è inferiore al caso UEP (sia MIB che LIB) quando la dimensione del blocco aumenta.\\
-In conclusione, sia per canali con errori indipendenti che per canali con errori correlati, l'algoritmo di protezione basato su UEP testato in questa tesina è utile ed efficiente.
+In conclusione, sia per canali con errori indipendenti che per canali con errori correlati, l'algoritmo di protezione basato su UEP testato in questa tesina è utile ed efficiente. Durante l'implementazione è stato possibile imparare come scrivere un software che applichi una codifica e trasmetta realmente dei pacchetti attraverso i socket e valutarne le prestazioni.
 %\begin{figure}[H]
 %	\makebox[\textwidth][c]{\includegraphics[width=16cm]{G10labE_f3.eps}}
 %	\caption{Componenti di $\hat{s}$}\label{fig:s2}
