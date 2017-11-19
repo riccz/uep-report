@@ -505,15 +505,12 @@ Dai grafici sopra riportati si può notare come l'aumento della probabilità d'e
 media del canale comporti un aumento della Packet Error Rate, anche se confrontando le
 figure \ref{fig:markov_zero} e \ref{fig:markov1} si nota che la differenza tra un canale
 error free e un canale con probablità d'errore media $\pi_B = 10^{-1}$ è esigua.\\
-Inoltre, per i canali testati ($\pi_B \in\{0, 10^{-1},10^{-2}\}$), si nota come,
-fino a blocchi di dimensione $K \approx 2100$ pacchetti, la protezione non uniforme abbia
+Inoltre, per tutti i canali testati, fino a blocchi di dimensione $K \approx 2100$ pacchetti, 
+la protezione non uniforme ha
 prestazioni migliori della protezione uniforme sia per quanto riguarda la
 parte più importante (MIB) che per quanto riguarda la parte meno importante (LIB).\\
-Per valori di $K$ superiori, il MIB (UEP) ha una PER inferiore alla protezione uniforme (EEP)
+Per valori di $K$ superiori, il MIB (UEP) ha una PER inferiore a quella della protezione uniforme (EEP)
 mentre il LIB ha una PER superiore.\\
-Se ci sono vincoli sulla dimensione massima del blocco, che possono derivare
-da vincoli sul delay massimo nella ricezione dei pacchetti, è utile mantenere
-piccola la dimensione del blocco e sfruttare l'algoritmo di protezione non uniforme.
 
 %
 %Per canali sufficientemente buoni, in media, ma con errori più correlati,
@@ -740,9 +737,8 @@ presentati nel paper \cite{uep}.
 %in quanto confrontando i risultati ottenuti in figura \ref{fig:encdec} con \cite{uep} si nota
 %che la pendenza della curva tempo di codifica / decodifica contro overhead sia maggiore
 %per la nostra realizzazione dell'algoritmo.\\
-Per quanto riguarda i canali rumorosi, sono stati analizzati due tipi di canale:
-il canale con errori non correlati (errori i.i.d.) può essere utilizzato imponendo una
-Packet Error Rate a livello applicazione bassa a piacere, variando la quantità di ridondanza aggiunta.
+Il canale con errori i.i.d. può essere utilizzato, imponendo una
+Packet Error Rate a livello applicazione bassa a piacere, semplicemente variando la quantità di ridondanza aggiunta.
 Come si vede in figura \ref{fig:iid_oh}, anche per un canale con probabilità d'errore
  $P_e = 0.3$, la PER è inferiore a $10^{-8}$ imponendo un overhead contenuto.\\
 Dalla stessa figura si nota come al variare della probabilità di 
@@ -761,14 +757,13 @@ da vincoli sul delay massimo nella ricezione dei pacchetti, è utile mantenere
 piccola la dimensione del blocco e sfruttare l'algoritmo di protezione non uniforme, infatti,
 per i canali testati ($\pi_B \in\{10^{-1},10^{-2}\}$), dalle figure \ref{fig:markov_pi100} 
 e \ref{fig:markov_pi10} si evince come quando i blocchi 
-in uscita dall'encoder hanno dimensioni inferiori a $K^* \approx 2100$ pacchetti, 
+in uscita dall'encoder abbiano dimensioni inferiori a $K^* \approx 2100$ pacchetti, 
 la protezione non uniforme abbia prestazioni migliori della protezione uniforme sia per quanto riguarda la
 parte MIB che per quanto riguarda la parte LIB.\\
 Per blocchi di dimensione maggiore, l'algoritmo EEP ha prestazioni 
 migliori rispetto alle prestazioni dell'algoritmo UEP, in quanto la Packet
-Error Rate del caso EEP è inferiore al caso UEP (sia MIB che LIB) quando la dimensione del blocco aumenta.
-
-
+Error Rate del caso EEP è inferiore al caso UEP (sia MIB che LIB) quando la dimensione del blocco aumenta.\\
+In conclusione, sia per canali con errori indipendenti che per canali con errori correlati, l'algoritmo di protezione basato su UEP testato in questa tesina è utile ed efficiente.
 %\begin{figure}[H]
 %	\makebox[\textwidth][c]{\includegraphics[width=16cm]{G10labE_f3.eps}}
 %	\caption{Componenti di $\hat{s}$}\label{fig:s2}
